@@ -1,3 +1,4 @@
+import 'package:chat_app/constant.dart';
 import 'package:chat_app/screens/login_screen.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
@@ -10,14 +11,14 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff2B475E),
+      backgroundColor: kPrimaryColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           spacing: 16,
           children: [
-            Spacer(
-              flex: 1,
+            SizedBox(
+              height: 20,
             ),
             Image.asset(
               'assets/images/school.png',
@@ -33,8 +34,8 @@ class RegisterScreen extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            Spacer(
-              flex: 2,
+            SizedBox(
+              height: 36,
             ),
             Align(
               alignment: AlignmentDirectional.topStart,
@@ -48,10 +49,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             CustomTextField(hintText: 'Email'),
             CustomTextField(hintText: 'Password'),
-            SizedBox(
-              width: Get.height,
-              child: CustomButton(buttonText: 'Register'),
-            ),
+            CustomButton(buttonText: 'Register'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -63,7 +61,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 TextButton(
                     onPressed: () {
-                      Get.to(() => LoginScreen());
+                      Get.back();
                     },
                     child: Text(
                       'Login',
@@ -73,9 +71,6 @@ class RegisterScreen extends StatelessWidget {
                     ))
               ],
             ),
-            Spacer(
-              flex: 2,
-            )
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:chat_app/screens/login_screen.dart';
+import 'package:chat_app/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,8 +14,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialRoute: '/LoginScreen',
+      getPages: [
+        GetPage(name: '/LoginScreen', page: () => LoginScreen()),
+        GetPage(
+          name: '/RegisterScreen',
+          page: () => RegisterScreen(),
+          transition: Transition.leftToRightWithFade,
+        ),
+      ],
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
     );
   }
 }
