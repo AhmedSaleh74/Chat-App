@@ -1,11 +1,12 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/core/utils/snackbar_util.dart';
-import 'package:chat_app/core/validators/auth_validators.dart';
+import 'package:chat_app/core/utils/auth_validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../core/utils/auth_error_handler.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 
@@ -69,37 +70,21 @@ class RegisterScreen extends StatelessWidget {
                 CustomButton(
                   buttonText: 'Register',
                   onPressed: () async {
-                    final validationMessage =
-                        AuthValidators.validateEmailAndPassword(
-                            emailController.text, passController.text);
+                    final validationMessage = validateEmailAndPassword(
+                        emailController.text, passController.text);
                     if (validationMessage != 'valid') {
-                      SnackBarUtil.showSnackBar(
+                      showSnackBar(
                           context: context, message: validationMessage);
                       return;
                     }
                     isLoading.value = true;
                     try {
                       await userRegister(context);
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'weak-password') {
-                        SnackBarUtil.showSnackBar(
-                            context: context,
-                            message: 'The password provided is too weak.');
-                      } else if (e.code == 'email-already-in-use') {
-                        SnackBarUtil.showSnackBar(
-                            context: context,
-                            message:
-                                'The account already exists for that email.');
-                      } else {
-                        SnackBarUtil.showSnackBar(
-                            context: context,
-                            message: 'FirebaseAuth error: ${e.message}.');
-                      }
                     } catch (e) {
-                      SnackBarUtil.showSnackBar(
-                          context: context, message: 'General error: $e');
+                      handleAuthError(context, e);
+                    } finally {
+                      isLoading.value = false;
                     }
-                    isLoading.value = false;
                   },
                 ),
                 Row(
@@ -135,7 +120,7 @@ class RegisterScreen extends StatelessWidget {
     final UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passController.text);
-    SnackBarUtil.showSnackBar(
+    showSnackBar(
         context: context, message: 'User Created: ${userCredential.user?.uid}');
   }
 }
