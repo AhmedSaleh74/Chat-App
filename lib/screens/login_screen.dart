@@ -1,5 +1,4 @@
 import 'package:chat_app/constant.dart';
-import 'package:chat_app/screens/register_screen.dart';
 import 'package:chat_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
