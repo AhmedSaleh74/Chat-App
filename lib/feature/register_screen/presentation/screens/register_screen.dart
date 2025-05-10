@@ -1,4 +1,3 @@
-import 'package:chat_app/constant.dart';
 import 'package:chat_app/core/utils/snackbar_util.dart';
 import 'package:chat_app/core/utils/auth_validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../core/theming/colors.dart';
 import '../../../../core/utils/auth_error_handler.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
@@ -80,6 +80,7 @@ class RegisterScreen extends StatelessWidget {
                     isLoading.value = true;
                     try {
                       await userRegister(context);
+                      Get.offAllNamed('/ChatScreen');
                     } catch (e) {
                       handleAuthError(context, e);
                     } finally {

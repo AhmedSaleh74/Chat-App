@@ -1,6 +1,6 @@
+import 'package:chat_app/feature/chat_screen/presentation/screens/chat_screen.dart';
 import 'package:chat_app/feature/login_screen/presentation/screens/login_screen.dart';
 import 'package:chat_app/feature/register_screen/presentation/screens/register_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/LoginScreen',
       getPages: [
         GetPage(name: '/LoginScreen', page: () => LoginScreen()),
+        GetPage(name: '/ChatScreen', page: () => ChatScreen()),
         GetPage(
           name: '/RegisterScreen',
           page: () => RegisterScreen(),
