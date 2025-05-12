@@ -1,9 +1,12 @@
+import 'package:chat_app/feature/authentiaction/blocs/auth_bloc.dart';
 import 'package:chat_app/feature/chat_screen/presentation/screens/chat_screen.dart';
-import 'package:chat_app/feature/login_screen/presentation/screens/login_screen.dart';
-import 'package:chat_app/feature/register_screen/presentation/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'feature/authentiaction/login_screen/presentation/screens/login_screen.dart';
+import 'feature/authentiaction/register_screen/presentation/screens/register_screen.dart';
+import 'feature/chat_screen/cubits/chat_cubit.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -20,18 +23,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      initialRoute: '/LoginScreen',
-      getPages: [
-        GetPage(name: '/LoginScreen', page: () => LoginScreen()),
-        GetPage(name: '/ChatScreen', page: () => ChatScreen()),
-        GetPage(
-          name: '/RegisterScreen',
-          page: () => RegisterScreen(),
-          transition: Transition.leftToRightWithFade,
-        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ChatCubit()),
+        BlocProvider(create: (context) => AuthBloc()),
       ],
-      debugShowCheckedModeBanner: false,
+      child: GetMaterialApp(
+        initialRoute: '/LoginScreen',
+        getPages: [
+          GetPage(name: '/LoginScreen', page: () => LoginScreen()),
+          GetPage(name: '/ChatScreen', page: () => ChatScreen()),
+          GetPage(
+            name: '/RegisterScreen',
+            page: () => RegisterScreen(),
+          ),
+        ],
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

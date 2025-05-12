@@ -12,11 +12,15 @@ class CustomTextField extends StatelessWidget {
       this.onPressSuffixIcon,
       this.onSubmitted,
       this.obscureTxt = false,
-      this.suffixIconColor});
+      this.suffixIconColor,
+      this.hintTextColor,
+      this.textColor});
   final String hintText;
   final TextEditingController? controller;
   final Color? borderColor;
   final Color? suffixIconColor;
+  final Color? hintTextColor;
+  final Color? textColor;
   final bool obscureTxt;
   final IconData? textFieldSuffixIcon;
   final VoidCallback? onPressSuffixIcon;
@@ -24,6 +28,9 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(
+        color: textColor ?? white,
+      ),
       obscureText: obscureTxt,
       controller: controller,
       onSubmitted: onSubmitted,
@@ -31,7 +38,7 @@ class CustomTextField extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: borderColor ?? Colors.white,
+            color: borderColor ?? white,
           ),
         ),
         border: OutlineInputBorder(
@@ -43,7 +50,7 @@ class CustomTextField extends StatelessWidget {
         label: Text(
           hintText,
           style: TextStyle(
-            color: kPrimaryColor,
+            color: hintTextColor ?? white,
           ),
         ),
         suffixIcon: IconButton(
