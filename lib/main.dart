@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'feature/authentiaction/login_screen/presentation/screens/login_screen.dart';
 import 'feature/authentiaction/register_screen/presentation/screens/register_screen.dart';
-import 'feature/chat_screen/cubits/chat_cubit.dart';
+import 'feature/chat_screen/bloc/chat_bloc.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ChatCubit()),
+        BlocProvider(create: (context) => ChatBloc()),
         BlocProvider(create: (context) => AuthBloc()),
       ],
       child: GetMaterialApp(

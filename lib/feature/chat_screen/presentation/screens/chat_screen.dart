@@ -1,11 +1,11 @@
 import 'package:chat_app/core/constant/constant.dart';
-import 'package:chat_app/feature/chat_screen/cubits/chat_cubit.dart';
 import 'package:chat_app/feature/chat_screen/presentation/widgets/chat_bubble_for_freind.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../bloc/chat_bloc.dart';
 import '../../models/message_model.dart';
 import '../widgets/chat_bubble.dart';
 
@@ -21,7 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final String email = Get.arguments;
+    final String? email = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -46,10 +46,10 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           Expanded(
-            child: BlocBuilder<ChatCubit, ChatState>(
+            child: BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
                 final List<Message> messages =
-                    BlocProvider.of<ChatCubit>(context).messagesList;
+                    BlocProvider.of<ChatBloc>(context).messagesList;
                 // Scroll to bottom بعد ما العناصر ترندر
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (scrollController.hasClients) {
@@ -76,9 +76,9 @@ class _ChatScreenState extends State<ChatScreen> {
               hintTextColor: kPrimaryColor,
               textColor: kPrimaryColor,
               onSubmitted: (data) {
-                if (messageController.text.isNotEmpty) {
-                  BlocProvider.of<ChatCubit>(context)
-                      .sendMessage(message: data, email: email);
+                if (messageController.text.isNotEmpty && email != null) {
+                  BlocProvider.of<ChatBloc>(context)
+                      .add(SendMessageEvent(message: data, email: email));
                   messageController.clear();
                   scrollToBottom();
                 }
@@ -87,9 +87,9 @@ class _ChatScreenState extends State<ChatScreen> {
               borderColor: kPrimaryColor,
               textFieldSuffixIcon: Icons.send,
               onPressSuffixIcon: () {
-                if (messageController.text.isNotEmpty) {
-                  BlocProvider.of<ChatCubit>(context).sendMessage(
-                      message: messageController.text, email: email);
+                if (messageController.text.isNotEmpty && email != null) {
+                  BlocProvider.of<ChatBloc>(context).add(SendMessageEvent(
+                      message: messageController.text, email: email));
                   messageController.clear();
                   scrollToBottom();
                 }

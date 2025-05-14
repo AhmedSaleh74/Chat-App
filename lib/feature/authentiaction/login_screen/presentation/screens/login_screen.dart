@@ -1,6 +1,6 @@
 import 'package:chat_app/core/utils/snackbar_util.dart';
 import 'package:chat_app/feature/authentiaction/blocs/auth_bloc.dart';
-import 'package:chat_app/feature/chat_screen/cubits/chat_cubit.dart';
+import 'package:chat_app/feature/chat_screen/bloc/chat_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
         } else if (state is LoginSuccess) {
           isLoading = false;
           Get.toNamed('/ChatScreen', arguments: emailController.text);
-          BlocProvider.of<ChatCubit>(context).getMessages();
+          BlocProvider.of<ChatBloc>(context).add(ReceiveMessageEvent());
         } else if (state is LoginFailure) {
           showSnackBar(context: context, message: state.errorMessage);
           isLoading = false;
